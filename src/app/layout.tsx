@@ -828,7 +828,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en-IN" dir="ltr" className={`lenis lenis-smooth ${inter.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en-IN" dir="ltr" className={`lenis lenis-smooth ${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <head>
         {/* ── Character Encoding ── */}
         <meta charSet="utf-8" />
@@ -879,7 +879,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(speakableSchema) }}
         />
       </head>
-      <body className="antialiased custom-cursor font-sans">
+      <body className="antialiased custom-cursor font-sans" suppressHydrationWarning>
         <SmoothScrollProvider>
           <ClientOnlyComponents />
           {children}
