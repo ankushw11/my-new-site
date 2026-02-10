@@ -40,9 +40,9 @@ module.exports = {
       },
       fontSize: {
         // Brutalist typography scale
-        "display-xl": ["clamp(4rem, 15vw, 12rem)", { lineHeight: "0.9", letterSpacing: "-0.04em" }],
-        "display-lg": ["clamp(3rem, 10vw, 8rem)", { lineHeight: "0.95", letterSpacing: "-0.03em" }],
-        "display-md": ["clamp(2rem, 6vw, 5rem)", { lineHeight: "1", letterSpacing: "-0.02em" }],
+        "display-xl": ["clamp(3rem, 8vw, 7rem)", { lineHeight: "0.9", letterSpacing: "-0.04em" }],
+        "display-lg": ["clamp(2.5rem, 6vw, 5rem)", { lineHeight: "0.95", letterSpacing: "-0.03em" }],
+        "display-md": ["clamp(2rem, 5vw, 4rem)", { lineHeight: "1", letterSpacing: "-0.02em" }],
         "display-sm": ["clamp(1.5rem, 4vw, 3rem)", { lineHeight: "1.1", letterSpacing: "-0.01em" }],
         "body-xl": ["1.5rem", { lineHeight: "1.5" }],
         "body-lg": ["1.25rem", { lineHeight: "1.6" }],
