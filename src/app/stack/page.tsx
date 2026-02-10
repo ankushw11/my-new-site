@@ -9,7 +9,9 @@ import { ArrowLeft, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
-gsap.registerPlugin(ScrollTrigger);
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 // ─── Tech Stack Data ───────────────────────────────────────────────────────────
 

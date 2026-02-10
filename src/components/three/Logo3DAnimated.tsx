@@ -8,7 +8,9 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 // 4x4 grid of geometric shapes (circles, squares, triangles)
 const GRID_SHAPES: Array<'circle' | 'square' | 'triangle'> = [
