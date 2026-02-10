@@ -63,37 +63,12 @@ const nextConfig = {
   },
 
   // ── Webpack Optimization ──
-  webpack: (config, { isServer }) => {
+  webpack: (config) => {
     // Tree-shake three.js
     config.resolve.alias = {
       ...config.resolve.alias,
       "three/examples/jsm": "three/examples/jsm",
     };
-
-    // Optimize chunks
-    if (!isServer) {
-      config.optimization = {
-        ...config.optimization,
-        splitChunks: {
-          ...config.optimization.splitChunks,
-          cacheGroups: {
-            ...config.optimization.splitChunks?.cacheGroups,
-            three: {
-              test: /[\\/]node_modules[\\/](three|@react-three)[\\/]/,
-              name: "three-vendor",
-              chunks: "all",
-              priority: 20,
-            },
-            gsap: {
-              test: /[\\/]node_modules[\\/](gsap|@gsap)[\\/]/,
-              name: "gsap-vendor",
-              chunks: "all",
-              priority: 15,
-            },
-          },
-        },
-      };
-    }
 
     return config;
   },
