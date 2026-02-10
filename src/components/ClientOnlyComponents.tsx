@@ -1,44 +1,42 @@
 "use client";
 
-import dynamic from "next/dynamic";
+import { useState, useEffect } from "react";
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// CLIENT-ONLY COMPONENTS — loaded with ssr: false to prevent hydration mismatches
-// These components use browser-only APIs (mouse events, window, document)
-// and must NOT be server-side rendered.
+// CLIENT-ONLY COMPONENTS — rendered only AFTER hydration completes
+// Uses useEffect + mounted state to guarantee:
+//   1. Server render: returns null (no DOM)
+//   2. Client hydration pass: returns null (matches server)
+//   3. Post-hydration (useEffect fires): renders actual components
+// This prevents the "insertBefore" hydration mismatch error that occurred
+// with next/dynamic ssr:false (which still participates in React tree
+// reconciliation during hydration).
 // ═══════════════════════════════════════════════════════════════════════════════
 
-const KCursor = dynamic(
-  () => import("@/components/Hero/KCursor").then((mod) => ({ default: mod.KCursor })),
-  { ssr: false }
-);
-
-const GridOverlay = dynamic(
-  () => import("@/components/ui/GridOverlay").then((mod) => ({ default: mod.GridOverlay })),
-  { ssr: false }
-);
-
-const RGBShiftOverlay = dynamic(
-  () => import("@/components/effects/RGBShiftOverlay").then((mod) => ({ default: mod.RGBShiftOverlay })),
-  { ssr: false }
-);
-
-const AmbientBackground = dynamic(
-  () => import("@/components/effects/AmbientBackground").then((mod) => ({ default: mod.AmbientBackground })),
-  { ssr: false }
-);
-
-const SoundProvider = dynamic(
-  () => import("@/components/ui/SoundProvider").then((mod) => ({ default: mod.SoundProvider })),
-  { ssr: false }
-);
+import { KCursor } from "@/components/Hero/KCursor";
+import { GridOverlay } from "@/components/ui/GridOverlay";
+import { RGBShiftOverlay } from "@/components/effects/RGBShiftOverlay";
+import { AmbientBackground } from "@/components/effects/AmbientBackground";
+import { SoundProvider } from "@/components/ui/SoundProvider";
 
 /**
  * Renders all client-only overlay/effect components.
- * This wrapper is imported in layout.tsx (a Server Component)
- * and ensures none of these components are server-rendered.
+ * Components are only mounted after hydration is complete (useEffect),
+ * ensuring zero server/client DOM mismatch.
  */
 export function ClientOnlyComponents() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // During SSR and initial hydration, render nothing.
+  // After hydration (useEffect fires), render the client-only components.
+  if (!mounted) {
+    return null;
+  }
+
   return (
     <>
       <KCursor />
