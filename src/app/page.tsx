@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import dynamic from "next/dynamic";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -14,59 +13,6 @@ import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { ImpactAndProcess } from "@/components/sections/ImpactAndProcess";
-
-// ── Dynamic imports (heavy 3D components, lazy loaded for code-splitting) ──
-// Using ssr: false because these components use Three.js/WebGL browser APIs.
-// They are wrapped in a mounted guard below to prevent insertBefore hydration errors.
-const ServiceWeb3 = dynamic(
-  () => import("@/components/sections/ServiceWeb3").then((mod) => ({ default: mod.ServiceWeb3 })),
-  {
-    loading: () => <ServiceSkeleton id="web3" number="01" title="WEB3 ARCHITECTURE" />,
-    ssr: false,
-  }
-);
-
-const ServiceWebsites = dynamic(
-  () => import("@/components/sections/ServiceWebsites").then((mod) => ({ default: mod.ServiceWebsites })),
-  {
-    loading: () => <ServiceSkeleton id="websites" number="02" title="DIGITAL PRESENCE" light />,
-    ssr: false,
-  }
-);
-
-const ServiceSoftware = dynamic(
-  () => import("@/components/sections/ServiceSoftware").then((mod) => ({ default: mod.ServiceSoftware })),
-  {
-    loading: () => <ServiceSkeleton id="software" number="03" title="SYSTEMS ENGINEERING" />,
-    ssr: false,
-  }
-);
-
-const ServiceApps = dynamic(
-  () => import("@/components/sections/ServiceApps").then((mod) => ({ default: mod.ServiceApps })),
-  {
-    loading: () => <ServiceSkeleton id="apps" number="04" title="NATIVE EXPERIENCES" light />,
-    ssr: false,
-  }
-);
-
-const ServiceAI = dynamic(
-  () => import("@/components/sections/ServiceAI").then((mod) => ({ default: mod.ServiceAI })),
-  {
-    loading: () => <ServiceSkeleton id="ai" number="05" title="ARTIFICIAL INTELLIGENCE" dark />,
-    ssr: false,
-  }
-);
-
-const FloatingLogoBall = dynamic(
-  () => import("@/components/ui/FloatingLogoBall").then((mod) => ({ default: mod.FloatingLogoBall })),
-  { ssr: false }
-);
-
-const ServiceNav = dynamic(
-  () => import("@/components/ui/ServiceNav").then((mod) => ({ default: mod.ServiceNav })),
-  { ssr: false }
-);
 
 // Register GSAP plugins
 if (typeof window !== "undefined") {
@@ -305,7 +251,7 @@ function ServicesIntro() {
     <section
       ref={sectionRef}
       id="services"
-      className="min-h-[60vh] sm:min-h-screen flex items-center justify-center py-16 sm:py-20"
+      className="flex items-center justify-center py-20 sm:py-28"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-gutter text-center">
         <span className="animate-in text-accent font-mono text-xs sm:text-body-sm uppercase tracking-widest mb-3 sm:mb-4 block">
@@ -326,23 +272,64 @@ function ServicesIntro() {
 }
 
 /**
- * DynamicSections — renders all ssr:false dynamic components ONLY after
- * hydration is complete. This prevents the insertBefore error caused by
- * next/dynamic's BailoutToCSR Suspense boundary conflicting with React's
- * hydration reconciliation.
+ * DynamicSections — renders all heavy 3D components ONLY after hydration.
  *
- * During SSR and initial hydration: renders static skeletons
- * After hydration (useEffect fires): renders actual dynamic components
+ * HYDRATION SAFETY:
+ * - Server render: static skeletons (zero dynamic imports, zero Suspense)
+ * - Client hydration pass: same static skeletons (mounted=false, matches server)
+ * - Post-hydration (useEffect fires): imports and renders actual components
+ *
+ * Components are imported via dynamic import() inside useEffect to guarantee
+ * they never participate in SSR or hydration reconciliation.
  */
 function DynamicSections() {
   const [mounted, setMounted] = useState(false);
+  const [components, setComponents] = useState<{
+    ServiceWeb3: React.ComponentType | null;
+    ServiceWebsites: React.ComponentType | null;
+    ServiceSoftware: React.ComponentType | null;
+    ServiceApps: React.ComponentType | null;
+    ServiceAI: React.ComponentType | null;
+    FloatingLogoBall: React.ComponentType | null;
+    ServiceNav: React.ComponentType<{ services: typeof services }> | null;
+  }>({
+    ServiceWeb3: null,
+    ServiceWebsites: null,
+    ServiceSoftware: null,
+    ServiceApps: null,
+    ServiceAI: null,
+    FloatingLogoBall: null,
+    ServiceNav: null,
+  });
 
   useEffect(() => {
     setMounted(true);
+
+    // Import all components after hydration is complete
+    Promise.all([
+      import("@/components/sections/ServiceWeb3").then((m) => m.ServiceWeb3),
+      import("@/components/sections/ServiceWebsites").then((m) => m.ServiceWebsites),
+      import("@/components/sections/ServiceSoftware").then((m) => m.ServiceSoftware),
+      import("@/components/sections/ServiceApps").then((m) => m.ServiceApps),
+      import("@/components/sections/ServiceAI").then((m) => m.ServiceAI),
+      import("@/components/ui/FloatingLogoBall").then((m) => m.FloatingLogoBall),
+      import("@/components/ui/ServiceNav").then((m) => m.ServiceNav),
+    ]).then(([Web3, Websites, Software, Apps, AI, Ball, Nav]) => {
+      setComponents({
+        ServiceWeb3: Web3,
+        ServiceWebsites: Websites,
+        ServiceSoftware: Software,
+        ServiceApps: Apps,
+        ServiceAI: AI,
+        FloatingLogoBall: Ball,
+        ServiceNav: Nav as React.ComponentType<{ services: typeof services }>,
+      });
+    });
   }, []);
 
-  if (!mounted) {
-    // Render static skeletons that match what the server would render
+  // During SSR and hydration: render static skeletons only.
+  // No dynamic imports, no Suspense boundaries, no BailoutToCSR.
+  if (!mounted || !components.ServiceWeb3) {
     return (
       <>
         <ServiceSkeleton id="web3" number="01" title="WEB3 ARCHITECTURE" />
@@ -354,15 +341,26 @@ function DynamicSections() {
     );
   }
 
+  // After hydration + imports complete: render actual components
+  const {
+    ServiceWeb3: Web3,
+    ServiceWebsites: Websites,
+    ServiceSoftware: Software,
+    ServiceApps: Apps,
+    ServiceAI: AI,
+    FloatingLogoBall: Ball,
+    ServiceNav: Nav,
+  } = components;
+
   return (
     <>
-      <FloatingLogoBall />
-      <ServiceNav services={services} />
-      <ServiceWeb3 />
-      <ServiceWebsites />
-      <ServiceSoftware />
-      <ServiceApps />
-      <ServiceAI />
+      {Ball && <Ball />}
+      {Nav && <Nav services={services} />}
+      <Web3 />
+      <Websites />
+      <Software />
+      <Apps />
+      <AI />
     </>
   );
 }
