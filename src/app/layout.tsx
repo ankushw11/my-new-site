@@ -2,11 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
-import { KCursor } from "@/components/Hero/KCursor";
-import { GridOverlay } from "@/components/ui/GridOverlay";
-import { RGBShiftOverlay } from "@/components/effects/RGBShiftOverlay";
-import { SoundProvider } from "@/components/ui/SoundProvider";
-import { AmbientBackground } from "@/components/effects/AmbientBackground";
+import { ClientOnlyComponents } from "@/components/ClientOnlyComponents";
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // OPTIMIZED FONTS — next/font (no render-blocking external CSS)
@@ -885,12 +881,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased custom-cursor font-sans">
         <SmoothScrollProvider>
-          <KCursor />
-          <GridOverlay />
-          <RGBShiftOverlay enabled={true} maxShift={10} />
-          <SoundProvider />
-          <AmbientBackground />
-          <div className="noise-overlay" aria-hidden="true" />
+          <ClientOnlyComponents />
           {children}
         </SmoothScrollProvider>
       </body>
