@@ -16,11 +16,13 @@ export function KCursor() {
   const [isClicking, setIsClicking] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const mousePos = useRef({ x: 0, y: 0 });
   const cursorPos = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
+    setMounted(true);
     const isTouch =
       "ontouchstart" in window ||
       navigator.maxTouchPoints > 0 ||
@@ -35,7 +37,7 @@ export function KCursor() {
   }, []);
 
   useEffect(() => {
-    if (isTouchDevice) return;
+    if (!mounted || isTouchDevice) return;
 
     const cursor = cursorRef.current;
     if (!cursor) return;
@@ -89,8 +91,10 @@ export function KCursor() {
       document.removeEventListener("mouseup", handleMouseUp);
       cancelAnimationFrame(animationFrame);
     };
-  }, [isTouchDevice]);
+  }, [mounted, isTouchDevice]);
 
+  // Don't render anything on server — prevents hydration mismatch
+  if (!mounted) return null;
   if (isTouchDevice) return null;
 
   return (

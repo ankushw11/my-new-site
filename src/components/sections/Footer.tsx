@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Logo, LogoText } from "@/components/ui/Logo";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 import {
   Twitter,
   Linkedin,
@@ -16,16 +17,16 @@ import {
 const footerLinks = {
   services: [
     { label: "Web3 & Blockchain", href: "#web3" },
-    { label: "Website Development", href: "#website" },
+    { label: "Website Development", href: "#websites" },
     { label: "Software Development", href: "#software" },
-    { label: "App Development", href: "#app" },
+    { label: "App Development", href: "#apps" },
     { label: "AI Solutions", href: "#ai" },
   ],
   company: [
-    { label: "About Us", href: "#about" },
-    { label: "Our Work", href: "#work" },
-    { label: "Careers", href: "#careers" },
-    { label: "Blog", href: "#blog" },
+    { label: "About Us", href: "https://www.kramatrix.com/profile" },
+    { label: "Our Work", href: "https://www.kramatrix.com/portfolios" },
+    { label: "Careers", href: "/careers" },
+    { label: "Blog", href: "/blog" },
     { label: "Contact", href: "#contact" },
   ],
   social: [
@@ -119,13 +120,33 @@ export function Footer() {
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.href}>
-                  <a
-                    href={link.href}
-                    className="text-body-sm text-background/70 hover:text-background transition-colors"
-                    data-cursor="hover"
-                  >
-                    {link.label}
-                  </a>
+                  {link.href.startsWith("http") ? (
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-body-sm text-background/70 hover:text-background transition-colors"
+                      data-cursor="hover"
+                    >
+                      {link.label}
+                    </a>
+                  ) : link.href.startsWith("/") ? (
+                    <Link
+                      href={link.href}
+                      className="text-body-sm text-background/70 hover:text-background transition-colors"
+                      data-cursor="hover"
+                    >
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <a
+                      href={link.href}
+                      className="text-body-sm text-background/70 hover:text-background transition-colors"
+                      data-cursor="hover"
+                    >
+                      {link.label}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
@@ -136,27 +157,7 @@ export function Footer() {
             <h3 className="text-sm font-display uppercase tracking-wider mb-6">
               Connect
             </h3>
-            <div className="flex gap-4 mb-6">
-              {footerLinks.social.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={cn(
-                    "w-10 h-10 flex items-center justify-center",
-                    "border border-background/30",
-                    "text-background/70 hover:text-background",
-                    "hover:border-background",
-                    "transition-all duration-300"
-                  )}
-                  aria-label={link.label}
-                  data-cursor="hover"
-                >
-                  <link.icon className="w-5 h-5" />
-                </a>
-              ))}
-            </div>
+            {/* Social icons temporarily removed */}
             <a
               href="#contact"
               className={cn(

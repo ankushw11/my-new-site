@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useRef, useEffect, useState } from "react";
+import { Suspense, useRef, useEffect, useState, useMemo } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Preload, View } from "@react-three/drei";
 import * as THREE from "three";
@@ -83,10 +83,18 @@ export function ViewScene({ children }: { children: React.ReactNode }) {
 
 // Global canvas for View components
 export function GlobalCanvas() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
   return (
     <Canvas
       className="!fixed !inset-0 !pointer-events-none"
-      eventSource={typeof document !== "undefined" ? document.body : undefined}
+      eventSource={document.body}
       eventPrefix="client"
       camera={{ position: [0, 0, 5], fov: 75 }}
       gl={{
