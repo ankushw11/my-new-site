@@ -20,19 +20,23 @@ export function ServiceNav({ services }: ServiceNavProps) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    // Track our own triggers so we only kill them on cleanup
+    const triggers: globalThis.ScrollTrigger[] = [];
+
     // Register ScrollTrigger for each service section
     services.forEach((service, index) => {
-      ScrollTrigger.create({
+      const t = ScrollTrigger.create({
         trigger: `#${service.id}`,
         start: "top center",
         end: "bottom center",
         onEnter: () => setActiveIndex(index),
         onEnterBack: () => setActiveIndex(index),
       });
+      triggers.push(t);
     });
 
     // Show/hide nav based on scroll position
-    ScrollTrigger.create({
+    const visibilityTrigger = ScrollTrigger.create({
       trigger: "#services",
       start: "top 80%",
       end: "bottom 20%",
@@ -41,9 +45,11 @@ export function ServiceNav({ services }: ServiceNavProps) {
       onEnterBack: () => setIsVisible(true),
       onLeaveBack: () => setIsVisible(false),
     });
+    triggers.push(visibilityTrigger);
 
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      // Only kill OUR triggers, not all triggers globally
+      triggers.forEach((trigger) => trigger.kill());
     };
   }, [services]);
 

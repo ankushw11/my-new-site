@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -15,7 +15,9 @@ import { Footer } from "@/components/sections/Footer";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { ImpactAndProcess } from "@/components/sections/ImpactAndProcess";
 
-// ── Dynamic imports (heavy 3D components, lazy loaded) ──
+// ── Dynamic imports (heavy 3D components, lazy loaded for code-splitting) ──
+// Using ssr: false because these components use Three.js/WebGL browser APIs.
+// They are wrapped in a mounted guard below to prevent insertBefore hydration errors.
 const ServiceWeb3 = dynamic(
   () => import("@/components/sections/ServiceWeb3").then((mod) => ({ default: mod.ServiceWeb3 })),
   {
@@ -323,16 +325,52 @@ function ServicesIntro() {
   );
 }
 
+/**
+ * DynamicSections — renders all ssr:false dynamic components ONLY after
+ * hydration is complete. This prevents the insertBefore error caused by
+ * next/dynamic's BailoutToCSR Suspense boundary conflicting with React's
+ * hydration reconciliation.
+ *
+ * During SSR and initial hydration: renders static skeletons
+ * After hydration (useEffect fires): renders actual dynamic components
+ */
+function DynamicSections() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    // Render static skeletons that match what the server would render
+    return (
+      <>
+        <ServiceSkeleton id="web3" number="01" title="WEB3 ARCHITECTURE" />
+        <ServiceSkeleton id="websites" number="02" title="DIGITAL PRESENCE" light />
+        <ServiceSkeleton id="software" number="03" title="SYSTEMS ENGINEERING" />
+        <ServiceSkeleton id="apps" number="04" title="NATIVE EXPERIENCES" light />
+        <ServiceSkeleton id="ai" number="05" title="ARTIFICIAL INTELLIGENCE" dark />
+      </>
+    );
+  }
+
+  return (
+    <>
+      <FloatingLogoBall />
+      <ServiceNav services={services} />
+      <ServiceWeb3 />
+      <ServiceWebsites />
+      <ServiceSoftware />
+      <ServiceApps />
+      <ServiceAI />
+    </>
+  );
+}
+
 export default function Home() {
   return (
     <main className="relative">
       <Header />
-      
-      {/* Floating logo ball — bounces around, click to contact */}
-      <FloatingLogoBall />
-      
-      {/* Service Navigation */}
-      <ServiceNav services={services} />
       
       {/* Hero Section */}
       <HeroSection />
@@ -340,12 +378,8 @@ export default function Home() {
       {/* Services Intro */}
       <ServicesIntro />
       
-      {/* Individual Service Sections — Lazy loaded */}
-      <ServiceWeb3 />
-      <ServiceWebsites />
-      <ServiceSoftware />
-      <ServiceApps />
-      <ServiceAI />
+      {/* Dynamic 3D service sections — mounted after hydration */}
+      <DynamicSections />
       
       {/* Impact Numbers + Consultancy Process (combined compact) */}
       <ImpactAndProcess />

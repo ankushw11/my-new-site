@@ -274,6 +274,21 @@ body {
   animation: gsap-fallback-reveal 0.01s 3s both;
 }
 
+/* Elements with animate-item class used in ImpactAndProcess */
+.animate-item {
+  animation: gsap-fallback-reveal 0.01s 3s both;
+}
+
+/* Footer animated elements */
+.footer-animate {
+  animation: gsap-fallback-reveal 0.01s 3s both;
+}
+
+/* Contact section animated elements */
+.contact-animate {
+  animation: gsap-fallback-reveal 0.01s 3s both;
+}
+
 /* Responsive typography */
 @media (max-width: 768px) {
   :root {
