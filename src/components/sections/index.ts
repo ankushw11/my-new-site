@@ -1,0 +1,13 @@
+export { Header } from "./Header";
+export { Hero } from "./Hero";
+export { Services } from "./Services";
+export { Footer } from "./Footer";
+export { ServiceWeb3 } from "./ServiceWeb3";
+export { ServiceWebsites } from "./ServiceWebsites";
+export { ServiceSoftware } from "./ServiceSoftware";
+export { ServiceApps } from "./ServiceApps";
+export { ServiceAI } from "./ServiceAI";
+export { MasterScene } from "./MasterScene";
+export { ImpactNumbers } from "./ImpactNumbers";
+export { ConsultancyProcess } from "./ConsultancyProcess";
+export { ContactSection } from "./ContactSection";

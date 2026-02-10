@@ -1,0 +1,72 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# KRAMATRIX.COM — robots.txt
+# Enterprise-grade crawl directives for search engines & AI bots
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# ── Standard Search Engine Crawlers ──────────────────────────────────────────
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+Disallow: /_next/static/
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Disallow: /api/
+Disallow: /_next/static/
+Crawl-delay: 2
+
+User-agent: Yandex
+Allow: /
+Disallow: /api/
+Crawl-delay: 2
+
+User-agent: Baiduspider
+Allow: /
+Disallow: /api/
+Crawl-delay: 3
+
+User-agent: DuckDuckBot
+Allow: /
+Disallow: /api/
+
+# ── AI / LLM Crawlers (Generative Engine Optimization) ──────────────────────
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Anthropic-ai
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Cohere-ai
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+# ── General Crawlers ────────────────────────────────────────────────────────
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /_next/static/
+Disallow: /logo3d
+
+# ── Sitemap ─────────────────────────────────────────────────────────────────
+Sitemap: https://kramatrix.com/sitemap.xml
+
+# ── Host ────────────────────────────────────────────────────────────────────
+Host: https://kramatrix.com

@@ -1,0 +1,252 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CSS Variables for theming */
+:root {
+  --color-primary: #000000;
+  --color-primary-foreground: #ffffff;
+  --color-accent: #ff0000;
+  --color-accent-light: #ff3b3b;
+  --color-background: #ffffff;
+  --color-background-dark: #0a0a0a;
+  --color-foreground: #000000;
+  --color-foreground-muted: #666666;
+  --color-grid: rgba(0, 0, 0, 0.1);
+  
+  --font-display: var(--font-inter, var(--font-monument, system-ui));
+  
+  --ease-brutalist: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
+  
+  --grid-size: 80px;
+  --grid-opacity: 0.1;
+}
+
+/* Dark mode variables */
+.dark {
+  --color-primary: #ffffff;
+  --color-primary-foreground: #000000;
+  --color-background: #0a0a0a;
+  --color-foreground: #ffffff;
+  --color-foreground-muted: #999999;
+  --color-grid: rgba(255, 255, 255, 0.1);
+}
+
+/* Base styles */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: auto; /* Lenis handles smooth scroll */
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+body {
+  color: var(--color-foreground);
+  background: var(--color-background);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Hide default cursor when custom cursor is active — desktop only */
+@media (pointer: fine) and (hover: hover) {
+  body.custom-cursor,
+  body.custom-cursor * {
+    cursor: none !important;
+  }
+}
+
+/* Selection styles */
+::selection {
+  background: var(--color-accent);
+  color: var(--color-primary-foreground);
+}
+
+/* Grid overlay */
+.grid-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image: 
+    linear-gradient(to right, var(--color-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-grid) 1px, transparent 1px);
+  background-size: var(--grid-size) var(--grid-size);
+  opacity: var(--grid-opacity);
+}
+
+/* Brutalist text styles */
+.text-brutalist {
+  font-family: var(--font-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+}
+
+/* Split text animation container */
+.split-text {
+  display: inline-flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+}
+
+.split-text .char {
+  display: inline-block;
+  transform-origin: bottom center;
+}
+
+.split-text .word {
+  display: inline-flex;
+  margin-right: 0.25em;
+  overflow: hidden;
+}
+
+/* Magnetic button effect */
+.magnetic {
+  position: relative;
+  transition: transform 0.3s var(--ease-brutalist);
+}
+
+/* Reveal animation */
+.reveal {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1s var(--ease-brutalist);
+}
+
+.reveal.revealed {
+  clip-path: inset(0 0 0 0);
+}
+
+/* Parallax container */
+.parallax-container {
+  position: relative;
+  overflow: hidden;
+}
+
+/* WebGL canvas container */
+.webgl-container {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.webgl-container.interactive {
+  pointer-events: auto;
+}
+
+/* Section styles */
+.section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(2rem, 8vw, 8rem) clamp(1rem, 4vw, 4rem);
+}
+
+.section-pinned {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Horizontal scroll container */
+.horizontal-scroll {
+  display: flex;
+  flex-wrap: nowrap;
+  width: max-content;
+}
+
+/* Noise texture overlay */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* Utility classes */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .text-gradient {
+    background: linear-gradient(135deg, var(--color-foreground) 0%, var(--color-foreground-muted) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .border-brutalist {
+    border: 2px solid var(--color-foreground);
+  }
+  
+  .shadow-brutalist {
+    box-shadow: 4px 4px 0 var(--color-foreground);
+  }
+  
+  .shadow-brutalist-lg {
+    box-shadow: 8px 8px 0 var(--color-foreground);
+  }
+  
+  .transition-brutalist {
+    transition: all 0.6s var(--ease-brutalist);
+  }
+  
+  .hover-lift {
+    transition: transform 0.3s var(--ease-brutalist);
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-4px);
+  }
+  
+  /* Hide scrollbar */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Responsive typography */
+@media (max-width: 768px) {
+  :root {
+    --grid-size: 40px;
+  }
+}
