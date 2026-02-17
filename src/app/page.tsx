@@ -282,25 +282,22 @@ function ServicesIntro() {
  * Components are imported via dynamic import() inside useEffect to guarantee
  * they never participate in SSR or hydration reconciliation.
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyComponent = React.ComponentType<any>;
+
+interface LoadedComponents {
+  ServiceWeb3: AnyComponent;
+  ServiceWebsites: AnyComponent;
+  ServiceSoftware: AnyComponent;
+  ServiceApps: AnyComponent;
+  ServiceAI: AnyComponent;
+  FloatingLogoBall: AnyComponent;
+  ServiceNav: AnyComponent;
+}
+
 function DynamicSections() {
   const [mounted, setMounted] = useState(false);
-  const [components, setComponents] = useState<{
-    ServiceWeb3: React.ComponentType | null;
-    ServiceWebsites: React.ComponentType | null;
-    ServiceSoftware: React.ComponentType | null;
-    ServiceApps: React.ComponentType | null;
-    ServiceAI: React.ComponentType | null;
-    FloatingLogoBall: React.ComponentType | null;
-    ServiceNav: React.ComponentType<{ services: typeof services }> | null;
-  }>({
-    ServiceWeb3: null,
-    ServiceWebsites: null,
-    ServiceSoftware: null,
-    ServiceApps: null,
-    ServiceAI: null,
-    FloatingLogoBall: null,
-    ServiceNav: null,
-  });
+  const [loaded, setLoaded] = useState<LoadedComponents | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -315,21 +312,21 @@ function DynamicSections() {
       import("@/components/ui/FloatingLogoBall").then((m) => m.FloatingLogoBall),
       import("@/components/ui/ServiceNav").then((m) => m.ServiceNav),
     ]).then(([Web3, Websites, Software, Apps, AI, Ball, Nav]) => {
-      setComponents({
+      setLoaded({
         ServiceWeb3: Web3,
         ServiceWebsites: Websites,
         ServiceSoftware: Software,
         ServiceApps: Apps,
         ServiceAI: AI,
         FloatingLogoBall: Ball,
-        ServiceNav: Nav as React.ComponentType<{ services: typeof services }>,
+        ServiceNav: Nav,
       });
     });
   }, []);
 
   // During SSR and hydration: render static skeletons only.
   // No dynamic imports, no Suspense boundaries, no BailoutToCSR.
-  if (!mounted || !components.ServiceWeb3) {
+  if (!mounted || !loaded) {
     return (
       <>
         <ServiceSkeleton id="web3" number="01" title="WEB3 ARCHITECTURE" />
@@ -341,7 +338,8 @@ function DynamicSections() {
     );
   }
 
-  // After hydration + imports complete: render actual components
+  // After hydration + imports complete: render actual components.
+  // TypeScript knows `loaded` is non-null here, so all components are valid.
   const {
     ServiceWeb3: Web3,
     ServiceWebsites: Websites,
@@ -350,12 +348,12 @@ function DynamicSections() {
     ServiceAI: AI,
     FloatingLogoBall: Ball,
     ServiceNav: Nav,
-  } = components;
+  } = loaded;
 
   return (
     <>
-      {Ball && <Ball />}
-      {Nav && <Nav services={services} />}
+      <Ball />
+      <Nav services={services} />
       <Web3 />
       <Websites />
       <Software />
