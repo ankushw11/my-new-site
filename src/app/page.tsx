@@ -367,7 +367,7 @@ function DynamicSections() {
 
 export default function Home() {
   return (
-    <main className="relative">
+    <main className="relative" suppressHydrationWarning>
       <Header />
       
       {/* Hero Section */}
