@@ -10,8 +10,8 @@ import { Menu, X } from "lucide-react";
 
 const navLinks = [
   { href: "#services", label: "Services" },
-  { href: "https://www.kramatrix.com/portfolios", label: "Work" },
-  { href: "https://www.kramatrix.com/profile", label: "About" },
+  { href: "/portfolios", label: "Work" },
+  { href: "/profile", label: "About" },
   { href: "#contact", label: "Contact" },
 ];
 

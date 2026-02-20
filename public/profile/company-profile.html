@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kramatrix | Company Profile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link rel="stylesheet" href="/profile/style-profile.css">
+</head>
+<body>
+    <!-- Magic Cursor -->
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-circle" id="cursor-circle"></div>
+
+    <!-- Floating UI Controls -->
+    <div class="controls">
+        <div class="logo-small"><img src="/logo_kramatrix.png" alt="Kramatrix Logo" class="logo-img"></div>
+        <div class="page-indicator"><span id="currentSlide">01</span> / <span id="totalSlides">16</span></div>
+        <div class="nav-arrows">
+            <button id="prevBtn" class="nav-btn">&uarr;</button>
+            <button id="nextBtn" class="nav-btn">&darr;</button>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="slides-container">
+        <div class="slides-inner">
+
+            <!-- Slide 1: HERO -->
+            <section class="slide" id="slide1">
+                <canvas id="particleCanvas"></canvas>
+                <div class="grid-overlay"></div>
+                <div class="shape shape-circle"></div>
+                <div class="shape shape-triangle"></div>
+                <div class="content t-center">
+                    <div class="logo-hero">
+                        <img src="/logo_kramatrix.png" alt="Kramatrix Logo">
+                    </div>
+                    <div class="mask-container">
+                        <h1 class="giant-text">KRAMATRIX</h1>
+                    </div>
+                    <p class="subtitle">THE FUTURE, ENGINEERED.</p>
+                </div>
+                <div class="footer-msg">EST. 2020</div>
+            </section>
+
+            <!-- Slide 2: ABOUT US -->
+            <section class="slide light-mode" id="slide2">
+                <div class="content">
+                    <h2 class="section-title">Who We Are</h2>
+                    <div class="about-intro">
+                        <p class="large-text">Kramatrix is your premier digital transformation partner, committed to redefining business operations and driving sustainable global growth through innovative technology.</p>
+                    </div>
+                    <div class="services-grid">
+                        <div class="service-card">
+                            <div class="service-icon">💻</div>
+                            <h3>Web & App Solutions</h3>
+                            <p>Cutting-edge mobile and web development</p>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">🧠</div>
+                            <h3>AI Solutions</h3>
+                            <p>Intelligent automation and predictive analytics</p>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">📊</div>
+                            <h3>Strategic Consulting</h3>
+                            <p>Expert guidance for digital roadmap</p>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">⚙️</div>
+                            <h3>Custom LLM</h3>
+                            <p>Tailored Large Language Models</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 3: OUR JOURNEY -->
+            <section class="slide dark-mode" id="slide3">
+                <div class="content">
+                    <h2 class="section-title">Our Journey</h2>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">2020</div>
+                            <h3>The Beginning</h3>
+                            <p>Started with 2 People.<br>Humble Beginnings.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2022</div>
+                            <h3>Building Momentum</h3>
+                            <p>Delivered 182+ Projects<br>Expanded Into New Regions</p>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2025</div>
+                            <h3>Scaling Up</h3>
+                            <p>Grew To A 55+ Member Team<br>Serving Fortune 794+ Clients</p>
+                        </div>
+                        <div class="timeline-item active">
+                            <div class="timeline-year">2026</div>
+                            <h3>Global Impact</h3>
+                            <p>Trusted By Clients Worldwide<br>Award-winning Solutions</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 4: STATISTICS -->
+            <section class="slide light-mode" id="slide4">
+                <div class="content">
+                    <h2 class="section-title">By The Numbers</h2>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <div class="stat-number">2020</div>
+                            <div class="stat-label">Year Founded</div>
+                        </div>
+                        <div class="stat-box highlight">
+                            <div class="stat-number">600+</div>
+                            <div class="stat-label">Happy Clients</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number">56</div>
+                            <div class="stat-label">Skilled Professionals</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number">15+</div>
+                            <div class="stat-label">Countries Covered</div>
+                        </div>
+                        <div class="stat-box highlight">
+                            <div class="stat-number">90%</div>
+                            <div class="stat-label">Repeated Customers</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number">20+</div>
+                            <div class="stat-label">Industries Covered</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 5: CORE SERVICES -->
+            <section class="slide dark-mode" id="slide5">
+                <div class="content">
+                    <h2 class="section-title">Our Core Services</h2>
+                    <div class="core-services-grid">
+                        <div class="core-service">
+                            <h3>Development</h3>
+                            <ul>
+                                <li>Web Development</li>
+                                <li>Mobile App Development</li>
+                                <li>UI/UX Design</li>
+                            </ul>
+                        </div>
+                        <div class="core-service">
+                            <h3>AI & Data</h3>
+                            <ul>
+                                <li>AI/ML/Custom LLMs</li>
+                                <li>AI Automation</li>
+                                <li>AI Agents</li>
+                            </ul>
+                        </div>
+                        <div class="core-service">
+                            <h3>Operations & QA</h3>
+                            <ul>
+                                <li>DevOps</li>
+                                <li>Quality Assurance</li>
+                                <li>Testing</li>
+                            </ul>
+                        </div>
+                        <div class="core-service">
+                            <h3>Digital & IoT</h3>
+                            <ul>
+                                <li>E-Commerce</li>
+                                <li>Digital Marketing</li>
+                                <li>Internet of Things</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 6: INDUSTRIES -->
+            <section class="slide light-mode" id="slide6">
+                <div class="content">
+                    <h2 class="section-title">Industries We Transform</h2>
+                    <div class="industries-grid">
+                        <div class="industry-group">
+                            <h4>Lifestyle & Commerce</h4>
+                            <p>Real Estate · E-Commerce & Retail<br>Beauty & Lifestyle · Food & Beverages</p>
+                        </div>
+                        <div class="industry-group">
+                            <h4>Digital & Tech</h4>
+                            <p>Education & E-Learning<br>Media & Entertainment<br>Social Media · IT & Telecom</p>
+                        </div>
+                        <div class="industry-group">
+                            <h4>Finance & Professional</h4>
+                            <p>Banking & Finance<br>Legal · Insurance</p>
+                        </div>
+                        <div class="industry-group">
+                            <h4>Health & Industry</h4>
+                            <p>Healthcare · Manufacturing<br>Logistics & Transportation<br>Life Science · Automotive<br>Sports & Gaming · Travel & Tourism</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 7: DIFFERENTIATORS -->
+            <section class="slide dark-mode" id="slide7">
+                <div class="content">
+                    <h2 class="section-title">What Makes Us Different</h2>
+                    <div class="diff-grid">
+                        <div class="diff-item">
+                            <div class="diff-num">01</div>
+                            <h3>Affordable Prices</h3>
+                            <p>Competitive pricing without compromising quality, ensuring accessibility for all clients.</p>
+                        </div>
+                        <div class="diff-item">
+                            <div class="diff-num">02</div>
+                            <h3>Result-Oriented</h3>
+                            <p>Focused on achieving measurable outcomes and exceeding business goals.</p>
+                        </div>
+                        <div class="diff-item">
+                            <div class="diff-num">03</div>
+                            <h3>Talented Team</h3>
+                            <p>Expert designers, developers, and strategists dedicated to excellence.</p>
+                        </div>
+                        <div class="diff-item">
+                            <div class="diff-num">04</div>
+                            <h3>Timely Delivery</h3>
+                            <p>Meeting deadlines with high-quality standards, delivered consistently.</p>
+                        </div>
+                        <div class="diff-item">
+                            <div class="diff-num">05</div>
+                            <h3>Great Methodology</h3>
+                            <p>Utilizing proven processes and agile practices for efficient execution.</p>
+                        </div>
+                        <div class="diff-item">
+                            <div class="diff-num">06</div>
+                            <h3>Client Satisfaction</h3>
+                            <p>Committed to building lasting relationships through exceptional service.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 8: PROCESS -->
+            <section class="slide light-mode" id="slide8">
+                <div class="content">
+                    <h2 class="section-title">Our Proven Process</h2>
+                    <div class="process-flow">
+                        <div class="process-step">
+                            <div class="process-number">01</div>
+                            <h3>Discovery & Consultation</h3>
+                            <p>Understand Goals & Challenges<br>Deep dive into requirements</p>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-number">02</div>
+                            <h3>Planning & Strategy</h3>
+                            <p>Create Roadmap<br>Formulate strategic execution plan</p>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-number">03</div>
+                            <h3>Design & Development</h3>
+                            <p>Bring Vision to Life<br>Agile design and build</p>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-number">04</div>
+                            <h3>Testing & QA</h3>
+                            <p>Rigorous Testing<br>Ensure quality and performance</p>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="process-number">05</div>
+                            <h3>Deployment & Support</h3>
+                            <p>Launch & Ongoing Support<br>Confident go-live</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 9: TECHNOLOGY STACK -->
+            <section class="slide dark-mode" id="slide9">
+                <div class="content">
+                    <h2 class="section-title">Technology Expertise</h2>
+                    <p class="subtitle-small">20+ Modern Technologies</p>
+                    <div class="tech-grid">
+                        <span class="tech-tag">HTML5</span>
+                        <span class="tech-tag">React JS</span>
+                        <span class="tech-tag">Angular JS</span>
+                        <span class="tech-tag">Node JS</span>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Firebase</span>
+                        <span class="tech-tag">PostgreSQL</span>
+                        <span class="tech-tag">MySQL</span>
+                        <span class="tech-tag">MongoDB</span>
+                        <span class="tech-tag">Google Cloud</span>
+                        <span class="tech-tag">AWS</span>
+                        <span class="tech-tag">WordPress</span>
+                        <span class="tech-tag">Magento</span>
+                        <span class="tech-tag">React Native</span>
+                        <span class="tech-tag">Flutter</span>
+                        <span class="tech-tag">iOS</span>
+                        <span class="tech-tag">Kotlin</span>
+                        <span class="tech-tag">Laravel</span>
+                        <span class="tech-tag">Salesforce</span>
+                        <span class="tech-tag">Zoho CRM</span>
+                        <span class="tech-tag">Web3</span>
+                        <span class="tech-tag">Blockchain</span>
+                    </div>
+                    <div class="team-stats">
+                        <div class="team-stat">
+                            <strong>Team Experience:</strong> 30% Senior · 50% Mid-Level · 20% Junior
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 10: CULTURE & VALUES -->
+            <section class="slide light-mode" id="slide10">
+                <div class="content">
+                    <h2 class="section-title">Our Culture & Values</h2>
+                    <div class="values-grid">
+                        <div class="value-card">
+                            <h3>Integrity First</h3>
+                            <p>We build trust through honesty, transparency, and ethical practices.</p>
+                        </div>
+                        <div class="value-card">
+                            <h3>Client-Centric</h3>
+                            <p>Your success is our priority - we listen, adapt, and deliver.</p>
+                        </div>
+                        <div class="value-card">
+                            <h3>Collaboration</h3>
+                            <p>We thrive as a team sharing ideas, learning, and growing together.</p>
+                        </div>
+                        <div class="value-card">
+                            <h3>Innovation Driven</h3>
+                            <p>We embrace change and push boundaries to craft cutting-edge solutions.</p>
+                        </div>
+                        <div class="value-card">
+                            <h3>Excellence</h3>
+                            <p>We're committed to quality, precision, and impactful results in every project.</p>
+                        </div>
+                        <div class="value-card">
+                            <h3>Sustainable Growth</h3>
+                            <p>We aim for long-term impact socially, economically, and environmentally.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 11: MARKETING SOLUTIONS -->
+            <section class="slide dark-mode" id="slide11">
+                <div class="content">
+                    <h2 class="section-title">Marketing Solutions</h2>
+                    <p class="subtitle-small">Comprehensive end-to-end marketing services</p>
+                    <div class="marketing-grid">
+                        <div class="marketing-service">
+                            <h3>Google Ads</h3>
+                            <p>Data-driven campaigns to maximize reach and conversions</p>
+                        </div>
+                        <div class="marketing-service">
+                            <h3>Meta Ads</h3>
+                            <p>Targeted ads for better engagement on social platforms</p>
+                        </div>
+                        <div class="marketing-service">
+                            <h3>Content Marketing</h3>
+                            <p>Trust-building through valuable content</p>
+                        </div>
+                        <div class="marketing-service">
+                            <h3>Social Media</h3>
+                            <p>Boost presence across all channels</p>
+                        </div>
+                        <div class="marketing-service">
+                            <h3>SEO</h3>
+                            <p>Improve visibility in organic search</p>
+                        </div>
+                        <div class="marketing-service">
+                            <h3>Local SEO</h3>
+                            <p>Drive local traffic and footfall</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 12: SECURITY & IP -->
+            <section class="slide light-mode" id="slide12">
+                <div class="content">
+                    <h2 class="section-title">Data Security & IP Protection</h2>
+                    <p class="large-text">Your data and intellectual property are our top priority, safeguarded by comprehensive measures and strict protocols.</p>
+                    <div class="security-grid">
+                        <div class="security-item">
+                            <h3>IP Rights Assurance</h3>
+                            <p>100% code ownership and strict NDA policies for your peace of mind.</p>
+                        </div>
+                        <div class="security-item">
+                            <h3>Data Privacy</h3>
+                            <p>Adhering to global standards with rigorous corporate security measures.</p>
+                        </div>
+                        <div class="security-item">
+                            <h3>24/7 Security Monitoring</h3>
+                            <p>Continuous vigilance and rapid response to protect your assets.</p>
+                        </div>
+                        <div class="security-item">
+                            <h3>Ownership Transfer</h3>
+                            <p>Seamless and secure handover procedures for clarity and reliability.</p>
+                        </div>
+                    </div>
+                    <div class="trust-message">Trusted Partnership: Reliable, Transparent, Secure.</div>
+                </div>
+            </section>
+
+            <!-- Slide 13: PORTFOLIO -->
+            <section class="slide dark-mode" id="slide13">
+                <div class="content">
+                    <h2 class="section-title">Success Stories</h2>
+                    <p class="subtitle-small">Proven excellence through innovative solutions</p>
+                    <div class="portfolio-grid">
+                        <div class="portfolio-item">
+                            <h3>Watchibia.com</h3>
+                            <p class="portfolio-cat">Custom Watches</p>
+                            <p>Elevating custom watch sales with digital solutions</p>
+                        </div>
+                        <div class="portfolio-item">
+                            <h3>igloo.inc</h3>
+                            <p class="portfolio-cat">Web3 & Blockchain</p>
+                            <p>Innovative 3D cryptocurrency and NFT platform powered by Web3 and Blockchain technology</p>
+                        </div>
+                        <div class="portfolio-item">
+                            <h3>mayd-hamburg.com</h3>
+                            <p class="portfolio-cat">Creative Studio</p>
+                            <p>Showcasing creativity through digital innovation</p>
+                        </div>
+                        <div class="portfolio-item">
+                            <h3>lelabofragrances.com</h3>
+                            <p class="portfolio-cat">Fragrances</p>
+                            <p>Luxury fragrance experience with elegant digital presence</p>
+                        </div>
+                        <div class="portfolio-item">
+                            <h3>thalieparis.com</h3>
+                            <p class="portfolio-cat">Fashion & Lifestyle</p>
+                            <p>Showcasing Parisian elegance through digital innovation</p>
+                        </div>
+                        <div class="portfolio-item">
+                            <h3>sweetgreen.com</h3>
+                            <p class="portfolio-cat">Food & Restaurant</p>
+                            <p>Delivering freshness through digital platforms</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 14: GLOBAL REACH -->
+            <section class="slide light-mode" id="slide14">
+                <div class="content">
+                    <h2 class="section-title">Bridging The World</h2>
+                    <p class="large-text">Expanding Our Global Footprint</p>
+                    <div class="global-presence">
+                        <h3>Active Presence in 15+ Countries</h3>
+                        <div class="countries-grid">
+                            <div class="country-group">
+                                <strong>Europe:</strong>
+                                <p>Austria · Belgium · Switzerland · Denmark · Finland · Greece · Hungary · Ireland · Italy · Malta · Netherlands · Poland · Portugal · Spain · Sweden</p>
+                            </div>
+                            <div class="country-group">
+                                <strong>Other Regions:</strong>
+                                <p>United Kingdom · Germany · France · USA · Israel · UAE · India · Malaysia · Australia · New Zealand</p>
+                            </div>
+                        </div>
+                        <p class="global-message">Serving 15+ countries with continued international expansion</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 15: TRUSTED ALLIANCES -->
+            <section class="slide light-mode" id="slide15">
+                <div class="content">
+                    <h2 class="section-title">TRUSTED ALLIANCES</h2>
+                    <div class="alliances-logos">
+                        <img src="/profile/aaaaaa.png" alt="Trusted Alliances - Client Logos" class="full-width-image">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 16: CONTACT -->
+            <section class="slide dark-mode" id="slide16">
+                <div class="content t-center">
+                    <h2 class="final-cta">LET'S BUILD<br>THE IMPOSSIBLE.</h2>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <strong>Website:</strong>
+                            <p>www.Kramatrix.com</p>
+                        </div>
+                        <div class="contact-item">
+                            <strong>Email:</strong>
+                            <p>info@kramatrix.com</p>
+                        </div>
+                        <div class="contact-item">
+                            <strong>Phone:</strong>
+                            <p>+91 72910 56360</p>
+                        </div>
+                    </div>
+                    <p class="contact-message">Partner with us for innovative opportunities and project consultations.<br>We are ready to bring your digital vision to life.</p>
+                    <a href="mailto:info@kramatrix.com" class="contact-btn">INITIATE SEQUENCE</a>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="/profile/script-profile.js"></script>
+</body>
+</html>
