@@ -40,6 +40,16 @@ const nextConfig = {
         ],
       },
       {
+        // Allow profile page to be embedded if needed
+        source: "/profile",
+        headers: [
+          {
+            key: "X-Frame-Options",
+            value: "SAMEORIGIN",
+          },
+        ],
+      },
+      {
         // Cache static assets aggressively
         source: "/(.*)\\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)",
         headers: [
@@ -63,12 +73,28 @@ const nextConfig = {
   },
 
   // ── Webpack Optimization ──
-  webpack: (config) => {
+  webpack: (config, { isServer }) => {
     // Tree-shake three.js
     config.resolve.alias = {
       ...config.resolve.alias,
       "three/examples/jsm": "three/examples/jsm",
     };
+
+    // Fix module loading issues
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+      net: false,
+      tls: false,
+    };
+
+    // Better error handling for module loading
+    if (!isServer) {
+      config.resolve.extensionAlias = {
+        ".js": [".js", ".ts", ".tsx"],
+        ".jsx": [".jsx", ".tsx"],
+      };
+    }
 
     return config;
   },
